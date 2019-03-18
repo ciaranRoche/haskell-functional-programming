@@ -59,20 +59,18 @@ module ComparingSortingGrouping  where
     p5lambda = sortBy (\(n1, col1)(n2, col2) -> compare col1 col2)[(name p, color p)| p <- people]
     --------------------------------------------------------
     -- The color and the count of all those with that color
-    p6t = group (sort [color p | p <- people])
     p6:: [(Colour,Int)]
-    p6 = sort
+    p6 = [(head xs, length xs) | xs <- group ( sort [colour p | p <- people])]
     
     -----------------------------------------------------
     -- The color and a list of all names with that color
     
     p7:: [(Colour,[String])]
-    p7 = undefined
-    
+    p7 =  [ (fst (head xs), [snd  x | x <- xs] ) |  xs <- groupBy (\(col1, n1) (col2, n2) -> col1 == col2) ( sort [(colour p, name p) | p <- people] )  ]    
     
     ----------------------------------------------
     -- The names and ages of all those who live in Oregon
     -- grouped by age.
     
     p8:: [[(String,Integer)]]
-    p8 = undefined
+    p8 = group( sortBy ((\(n1, a1) (n2, a2) -> compare a1 a2)) [(name p, age p) | p<- people, state p == "Oregon"] )
